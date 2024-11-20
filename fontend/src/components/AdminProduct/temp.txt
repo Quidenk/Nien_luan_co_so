@@ -1,0 +1,199 @@
+// import React, { useEffect, useState } from 'react'
+// import { ButtonAdd, WrapperHeader, WrapperUploadFile } from './style'
+// import TableComponent from '../TableComponent/TableComponent'
+// import { PlusOutlined } from '@ant-design/icons'
+// import { Button, Form, Input, message, Modal } from 'antd'
+// import { getBase64 } from '../../utils'
+// import { useMutationHooks } from '../../hooks/useMutationHook'
+// import { CreateProductApi } from '../../util/productService'
+// // import LoadingComponent from '../LoadingComponent/LoadingComponent'
+
+// const AdminProduct = () => {
+
+//     const [isModalOpen, setIsModalOpen] = useState(false);
+//     const [stateProduct, setStateProduct] = useState({
+//         name: '',
+//         image: '', 
+//         type: '', 
+//         price: '', 
+//         countInStock: '', 
+//         description: '',
+//     });
+
+//     const mutation =  useMutationHooks(
+//         (data) => {
+//             const { name,
+//                     image, 
+//                     type, 
+//                     price, 
+//                     countInStock, 
+//                     description } = data
+//             const res = CreateProductApi({ name,
+//                                image, 
+//                                type, 
+//                                price, 
+//                                countInStock, 
+//                                description
+//             })
+//             return res
+//         },
+//         // (isLoading) => {isLoading= true}
+//     )
+
+//     const {data, isLoading, isSuccess, isError } = mutation
+
+//     useEffect(() => {
+//         if(isSuccess && data?.status  === 'OK') {
+//             message.success()
+//             handleCancel()
+//         }else if(isError){
+//             message.error()
+//         }
+//     }, [isSuccess])
+
+//     const onFinish = ()  => {
+//         mutation.mutate(stateProduct)
+//         console.log('finish: ', stateProduct)
+//     }
+  
+//     const handleOk = () => {
+//     //   setIsModalOpen(false);
+//         onFinish()
+//     };
+  
+//     const handleCancel = () => {
+//       setIsModalOpen(false);
+//       setStateProduct({
+//         name: '',
+//         image: '', 
+//         type: '', 
+//         price: '', 
+//         countInStock: '', 
+//         description: '',
+//     })
+//     };
+
+//     const handleOnChange = (e) => {
+//         setStateProduct({
+//             ...stateProduct,
+//             [e.target.name] : e.target.value
+//         })
+//     }
+
+//     const handleOnChangeImage = async ({ fileList }) => {
+//         const file = fileList[0]
+//         if(!file.url && !file.preview) {
+//             file.preview = await getBase64(file.originFileObj)
+//         }
+//         setStateProduct({
+//             ...stateProduct,
+//             image : file.preview
+//         })
+//     }
+    
+
+//   return (
+//     <div>
+//         <WrapperHeader>
+//             <h1>Quản lý sản phẩm</h1>
+//             <div style={{ marginTop: '10px'}}>
+//                 <ButtonAdd onClick={() => setIsModalOpen(true)}><PlusOutlined/></ButtonAdd>
+//             </div>
+//             <div style={{ marginTop: '20px'}}>
+//                 <TableComponent/>
+//             </div>
+
+//             <div>
+//                 <Modal title="Thêm sản phẩm mới" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+//                     {/* <LoadingComponent isLoading={isLoading}> */}
+//                        <Form
+//                         name="basic"
+//                         labelCol={{ span: 8 }}
+//                         wrapperCol={{ span: 16 }}
+//                         style={{ maxWidth: 600 }}
+//                         initialValues={{ remember: true }}
+//                         onFinish={onFinish}
+//                         autoComplete="off"
+//                     >
+//                         <Form.Item
+//                             label="Name Product"
+//                             name="Name"
+//                             rules={[{ required: true, message: 'Please input your name product!' }]}
+//                         >
+//                         <Input value={stateProduct.name} onChange={handleOnChange} name='name'/>
+//                         </Form.Item>
+
+//                         <Form.Item
+//                             label="Type Product"
+//                             name="Type"
+//                             rules={[{ required: true, message: 'Please input your type product!' }]}
+//                         >
+//                         <Input value={stateProduct.type} onChange={handleOnChange} name='type'/>
+//                         </Form.Item>
+
+//                         <Form.Item
+//                             label="Price"
+//                             name="Price"
+//                             rules={[{ required: true, message: 'Please input your type price!' }]}
+//                         >
+//                         <Input value={stateProduct.price} onChange={handleOnChange} name='price'/>
+//                         </Form.Item>
+
+//                         <Form.Item
+//                             label="Count In Stock"
+//                             name="CountInStock"
+//                             rules={[{ required: true, message: 'Please input your count in stock!' }]}
+//                         >
+//                         <Input value={stateProduct.countInStock} onChange={handleOnChange} name='countInStock'/>
+//                         </Form.Item>
+
+//                         <Form.Item
+//                             label="Description"
+//                             name="Description"
+//                             rules={[{ required: true, message: 'Please input your count in description!' }]}
+//                         >
+//                         <Input value={stateProduct.description} onChange={handleOnChange} name='description'/>
+//                         </Form.Item>
+
+//                         {/* <Form.Item
+//                         name="remember"
+//                         valuePropName="checked"
+//                         wrapperCol={{ offset: 8, span: 16 }}
+//                         >
+//                         <Checkbox>Remember me</Checkbox>
+//                         </Form.Item> */}
+
+//                         <Form.Item
+//                             label="Image"
+//                             name="Image"
+//                             rules={[{ required: true, message: 'Please input your count in image!' }]}
+//                         >
+//                         <WrapperUploadFile onChange={handleOnChangeImage} maxCount={5}>
+//                             <Button type="primary" htmlType="submit">Select file</Button>
+//                             {stateProduct?.image && (
+//                                 <img src={stateProduct?.image} style={{
+//                                     height: '60px',
+//                                     width: '60px',
+//                                     borderRadius: '5px',
+//                                     objectFit: 'cover',
+//                                     marginLeft: '10px',
+//                                 }} alt=""/>
+//                             )}
+//                         </WrapperUploadFile>
+//                         </Form.Item>
+
+//                         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+//                         <Button type="primary" htmlType="submit">
+//                             Submit
+//                         </Button>
+//                         </Form.Item>
+//                        </Form>
+//                     {/* </LoadingComponent> */}
+//                 </Modal>
+//             </div>
+//         </WrapperHeader>
+//     </div>
+//   )
+// }
+
+// export default AdminProduct
