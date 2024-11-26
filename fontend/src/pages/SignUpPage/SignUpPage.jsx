@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { FormStyle, WrapperRegister } from './style'
+import { ButtonAntD, FormStyle, InputStyle, LinkStyle, LoginStyle, WrapperRegister } from './style'
 import { Button, Form, Input, message, notification } from 'antd'
 import { createUserApi } from '../../util/api';
 import { useNavigate } from 'react-router';
@@ -62,87 +62,71 @@ const SignUpPage = () => {
 
   return (
     <LoadingComponent isLoading={isLoading}>
-    <div style={{ height: '100vh'}}>
-        <WrapperRegister>
+    <LoginStyle style={{ height: '100vh' }}>
+    <WrapperRegister style={{backdropFilter: 'blur(17px)', backgroundColor: 'rgba(0, 0, 0, 0.3)', color: '#fff'}}>
+          
           <FormStyle
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 16,
-            }}
-            style={{
-              maxWidth: 600,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={onFinish}
-            // onFinishFailed={onFinishFailed}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="name"
+          name="basic"
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 20 }}
+          onFinish={onFinish}
+          autoComplete="on"
+          // form={form}
+    >
+          <div style={{ fontSize: '30px', fontWeight: '600', color: '#fff', display: 'flex', justifyContent: 'center', marginBottom: '20px'}}>
+              ĐĂNG KÝ TÀI KHOẢN
+          </div>
+          
+          <Form.Item
+              label="Name"
               name="name"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your username!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              rules={[{ required: true, message: 'Please input your name!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="name" />
+          </Form.Item>
 
-            <Form.Item
-              label="email"
+          <Form.Item
+              label="Email"
               name="email"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your email!',
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
+              rules={[{ required: true, message: 'Please input your email!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="email" />
+          </Form.Item>
 
-            <Form.Item
+          <Form.Item
               label="Password"
               name="password"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your password!',
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+              rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
+          </Form.Item>
 
-            <Form.Item
+          <Form.Item
               label="Confirm Password"
               name="confirmPassword"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your confirm password!',
-                },
-              ]}
-            >
-              <Input.Password />
-            </Form.Item>
+              rules={[{ required: true, message: 'Please input your confirm password!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="confirmPassword" />
+          </Form.Item>
 
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Đăng ký
-              </Button>
-            </Form.Item>
-          </FormStyle>
+          <Form.Item wrapperCol={{ offset: 5, span: 20 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div>
+                <LinkStyle  onClick={() => {navigate('/sign-in')}}>Tôi đã có tài khoản.</LinkStyle>
+              </div>
+              
+              <div>
+                <ButtonAntD type="default" htmlType="submit">
+                    Sinup
+                </ButtonAntD>
+              </div>
+              </div>
+          </Form.Item>
+      </FormStyle>
         </WrapperRegister>
-    </div>
-    </LoadingComponent>
+        </LoginStyle>    
+      </LoadingComponent>
+
   )
 }
 

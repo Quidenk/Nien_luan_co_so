@@ -48,6 +48,15 @@ export const orderSlide = createSlice({
         itemOrderSelected.amount = numOrder;
       }
     },
+    updateSizeSelected: (state, action) => {
+      const {idProduct, sizeOrder} = action.payload
+      const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
+      const itemOrderSelected = state?.orderItemsSlected?.find((item) => item?.product === idProduct)
+      itemOrder.sizeSelected = sizeOrder;
+      if(itemOrderSelected) {
+        itemOrderSelected.sizeSelected = sizeOrder;
+      }
+    },
     increaseAmount: (state, action) => {
       const {idProduct} = action.payload
       const itemOrder = state?.orderItems?.find((item) => item?.product === idProduct)
@@ -98,6 +107,6 @@ export const orderSlide = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { addOrderProduct,increaseAmount,decreaseAmount,removeOrderProduct,removeAllOrderProduct, selectedOrder, resetOrder, updateAmount } = orderSlide.actions
+export const { addOrderProduct,increaseAmount,decreaseAmount,removeOrderProduct,removeAllOrderProduct, selectedOrder, resetOrder, updateAmount, updateSizeSelected } = orderSlide.actions
 
 export default orderSlide.reducer

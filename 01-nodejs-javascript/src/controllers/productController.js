@@ -1,9 +1,9 @@
-const { createProductService, getProductService, updataProductService, removeProductService, getOneProductService, getTypeProductService } = require("../services/productService")
+const { createProductService, getProductService, updataProductService, removeProductService, getOneProductService, getTypeProductService, getSizeProductService } = require("../services/productService")
 
 
 const createProduct = async (req, res) => {
-    const {name, image, type, price, discount, countInStock, rating, description} = req.body
-    const newProduct = await createProductService(name, image, type, price, discount, countInStock, rating, description)
+    const {name, image, type, price, discount, countInStock, rating, description, size} = req.body
+    const newProduct = await createProductService(name, image, type, price, discount, countInStock, rating, description, size)
     // console.log(newProduct)
     return res.status(200).json(newProduct)
 }
@@ -39,11 +39,12 @@ const getTypeProduct = async (req, res) => {
     return res.status(200).json(listTypeProduct)
 }
 
+
 module.exports = {
     createProduct,
     getProduct,
     getOneProduct,
     removeProduct,
     updataProduct,
-    getTypeProduct
+    getTypeProduct,
 }

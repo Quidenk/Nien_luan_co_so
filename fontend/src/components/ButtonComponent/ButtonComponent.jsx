@@ -6,8 +6,6 @@ const ButtonComponent = ({ size, styleButton, styleTextButton, textbutton, disab
     <Button
       style={{
         ...styleButton,
-        background: 'transparent',
-        border: 'none',
       }}
       size={size}
       {...rests}

@@ -77,7 +77,6 @@ export const NewsCard = styled.div`
 
 export const ButtonControl = styled.div`
     font-size: 20px;
-    border: 1px solid #fff;
     border-radius: 40px;
     width: 90%;
     height: 45px;
@@ -88,4 +87,9 @@ export const ButtonControl = styled.div`
     align-items: center;
     font-weight: 600;
     cursor: pointer;
+
+    &:hover {
+        box-shadow: 0px 20px 20px #00000040;
+        transform: scale(1.02);
+    }
 `

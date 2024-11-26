@@ -2,7 +2,6 @@ import styled from "styled-components";
 import ButtonComponent from "../../components/ButtonComponent/ButtonComponent";
 
 export const ProductsComponentStyle = styled.div`
-    border: 1px solid #e5e5e5;
     border-radius: 7px;
     backdrop-filter: blur(17px);
     background-color: rgba(0, 0, 0, 0.3);
@@ -26,7 +25,6 @@ export const WrapperButtonMore = styled(ButtonComponent)`
 
 export const WrapperMenuStyle = styled.div`
     font-size: 20px;
-    border: 1px solid #fff;
     border-radius: 40px;
     width: 100%;
     padding: 10px 0px;

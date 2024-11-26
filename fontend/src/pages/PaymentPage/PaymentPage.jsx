@@ -105,7 +105,7 @@ const PaymentPage = () => {
         // eslint-disable-next-line no-unused-expressions
         const temp = { 
                 token: user?.access_token, 
-                orderItems: order?.orderItemsSlected, 
+                orderItems: order?.orderItemsSlected,
                 fullName: user?.name,
                 address:user?.address, 
                 phone:user?.phone,

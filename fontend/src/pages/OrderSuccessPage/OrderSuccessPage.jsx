@@ -53,6 +53,9 @@ const OrderSuccess = () => {
                           <span >Giá tiền: {convertPrice(order?.price)}</span>
                         </span>
                         <span>
+                          <span >kích thước: {order?.sizeSelected}</span>
+                        </span>
+                        <span>
                           <span >Số lượng: {order?.amount}</span>
                         </span>
                       </div>

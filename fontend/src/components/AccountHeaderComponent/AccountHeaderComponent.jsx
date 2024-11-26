@@ -68,6 +68,10 @@ const AccountHeaderComponent = () => {
                     {
                        key: 'login',
                        label: <Link to={"/sign-in"}>Đăng nhập</Link>,
+                    },
+                    {
+                        key: 'login',
+                        label: <Link to={"/sign-up"}>Đăng ký</Link>,
                     }
                 ])
                 

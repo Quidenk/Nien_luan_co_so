@@ -5,7 +5,6 @@ export const WrapperHeader = styled.div`
     backdrop-filter: blur(17px);
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: 5px;
-    height: 100vh;
     color: #fff;
     padding: 15px;
 `

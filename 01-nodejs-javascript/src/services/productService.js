@@ -5,7 +5,7 @@ const fs = require('fs');
 const Uploads = require("../middleware/uploads")
 
 
-const createProductService = async (name, image, type, price, discount, countInStock, rating, description) => {
+const createProductService = async (name, image, type, price, discount, countInStock, rating, description, size) => {
     try {
         //check product exist
         const product = await Product.findOne({name});
@@ -18,7 +18,7 @@ const createProductService = async (name, image, type, price, discount, countInS
         }
         //create product
         let result = await Product.create({
-            name, image, type, price, discount, countInStock, rating, description, 
+            name, image, type, price, discount, countInStock, rating, description, size
         })
         return result;  
     } catch (error) {
@@ -129,6 +129,7 @@ const getTypeProductService = async () => {
         return null;
     }
 }
+
 
 const getOneProductService = async (id) => {
     try{

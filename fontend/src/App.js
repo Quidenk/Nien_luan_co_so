@@ -11,6 +11,7 @@ import { isJsonString } from './utils'
 import { jwtDecode } from 'jwt-decode';
 import { GetProfileUserApi } from './util/api'
 import { updateUser } from './redux/slides/userSlide'
+import { BackgroundStyle } from './style'
 
 
 
@@ -72,7 +73,15 @@ function App() {
       }
 
   return (
-    <div style={{ padding: '30px',backgroundImage: `url(${BackGround})`, backgroundPosition: 'center', backgroundSize: 'cover', backgroundRepeat: 'no-repeat', maxHeight: '200vh'}}>
+    <BackgroundStyle 
+        style={{
+            padding: '30px',
+            // backgroundImage: `url(${BackGround})`, 
+            // backgroundPosition: 'center', 
+            // backgroundSize: 'cover', 
+            // backgroundRepeat: 'no-repeat', 
+            // maxHeight: '200vh'
+        }}>
         <Router> 
             <Routes>
                 {routes.map((route) => {
@@ -89,7 +98,7 @@ function App() {
                 })}
             </Routes>
         </Router>
-    </div>
+    </BackgroundStyle>
   )
 }
 

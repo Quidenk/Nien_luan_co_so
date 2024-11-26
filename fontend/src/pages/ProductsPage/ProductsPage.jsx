@@ -85,7 +85,7 @@ const ProductsPage = () => {
     <LoadingComponent isLoading={isLoading || loading}>
 
       <ProductsComponentStyle style={{ overflow: 'auto' }}>
-        <Row style={{ border: '1px solid #fff', minHeight: '200vh'}}>
+        <Row style={{ minHeight: '200vh'}}>
 
           <Col style={{ padding: '10px'}} span={18} push={6}>
             <SliderComponent arrImage={[ Slider1, Slider1, Slider1, Slider1 ]}/>
@@ -106,7 +106,7 @@ const ProductsPage = () => {
                       <CardProductComponent key={product._id} 
                                           countInStock={product.countInStock} 
                                           description={product.description} 
-                                          image={product.image} 
+                                          image={product.image[0]} 
                                           name={product.name}
                                           price={product.price}
                                           rating={product.rating}

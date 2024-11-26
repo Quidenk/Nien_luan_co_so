@@ -23,7 +23,7 @@ import { Col, Form, Input, InputNumber, message, Row, Select } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import ButtonComponent from '../../components/ButtonComponent/ButtonComponent';
 import { useLocation, useNavigate } from 'react-router';
-import { removeAllOrderProduct, removeOrderProduct, selectedOrder, updateAmount } from '../../redux/slides/orderSlide';
+import { removeAllOrderProduct, removeOrderProduct, selectedOrder, updateAmount, updateSizeSelected } from '../../redux/slides/orderSlide';
 import { convertPrice } from '../../utils';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import { UpdataUserApi } from '../../util/api';
@@ -55,6 +55,10 @@ const OrderPage = () => {
     dispatch(updateAmount({idProduct: id, numOrder: value}))
   };
 
+  const handleChangeSize = (value, id) => {
+    dispatch(updateSizeSelected({idProduct: id, sizeOrder: value}))
+  };
+
   const handleDeleteOrder = (idProduct) => {
     dispatch(removeOrderProduct({idProduct}))
   }
@@ -82,7 +86,7 @@ const OrderPage = () => {
   
   // console.log('listChecked', listChecked)
 
-  const handleChange = () => {
+  const handleChange = (value) => {
 
   }
 
@@ -133,15 +137,16 @@ const OrderPage = () => {
 
   const diliveryPriceMemo = useMemo(() => {
     if(priceMemo >= 200000 && priceMemo < 500000){
-      return 10000
+      return convertPrice(10000)
     }else if(priceMemo >= 500000 || order?.orderItemsSlected?.length === 0) {
       return 0
     } else {
-      return 20000
+      return convertPrice(20000)
     }
   },[priceMemo])
 
   const totalPriceMemo = useMemo(() => {
+    console.log(`${Number(priceMemo)} - ${Number(priceDiscountMemo)} + ${Number(diliveryPriceMemo)}`)
     return Number(priceMemo) - Number(priceDiscountMemo) + Number(diliveryPriceMemo)
   },[priceMemo,priceDiscountMemo, diliveryPriceMemo])
 
@@ -152,7 +157,7 @@ const OrderPage = () => {
       setIsOpenModalUpdateInfo(true)
     }
     else {
-      console.log('ccccccccccccccccc: ', listChecked)
+      // console.log('ccccccccccccccccc: ', listChecked)
       navigate('/payment')
     } 
   }
@@ -228,6 +233,11 @@ const OrderPage = () => {
   //   }
   // },[numProduct])
 
+  // const sizeOptions = productDetails?.size.map((item) => ({
+  //   value: item,
+  //   label: item,
+  // }));
+
   return (
     <div style={{ height: '100vh', display: 'flex', gap: '3%'}}>
         <Wrapper >
@@ -289,14 +299,14 @@ const OrderPage = () => {
                       <OptionSelect>
                         <span> Kích thước </span>
                         <Select
-                          defaultValue=""
+                          defaultValue={order?.size}
                           style={{ width: 120 }}
-                          onChange={handleChange}
-                          options={[
-                            { value: 'jack', label: 'Jack' },
-                            { value: 'lucy', label: 'Lucy' },
-                            { value: 'Yiminghe', label: 'yiminghe' },
-                          ]}
+                          onChange={(value) => handleChangeSize(value, order?.product)}
+                          options={order?.size.map((item) => ({
+                              value: item,
+                              label: item,
+                            }))
+                          }
                         />
                       </OptionSelect>
 
@@ -403,6 +413,7 @@ const OrderPage = () => {
               // onFinish={onUpdateUser}
               autoComplete="on"
               form={form}
+              footer={true}
             >
               <Form.Item
                 label="Name"

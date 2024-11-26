@@ -22,8 +22,8 @@ routerAPI.post('/refresh-token', refreshToken)
 
 
 //PRODUCT
-const { createProduct, getProduct, updataProduct, removeProduct, getOneProduct, getTypeProduct } = require('../controllers/productController');
-const { createOrder, getAllOrderDetails, getDetailsOrder, cancelOrderDetails, getAllOrder } = require('../controllers/orderController');
+const { createProduct, getProduct, updataProduct, removeProduct, getOneProduct, getTypeProduct, getSizeProduct } = require('../controllers/productController');
+const { createOrder, getAllOrderDetails, getDetailsOrder, cancelOrderDetails, getAllOrder, confirmOrderDetails } = require('../controllers/orderController');
 
 routerAPI.post('/create-product', createProduct)
 routerAPI.get('/get-product', getProduct)
@@ -37,6 +37,7 @@ routerAPI.post('/create-order/:id', createOrder)
 routerAPI.get('/get-all-order/:id', getAllOrderDetails)
 routerAPI.get('/get-details-order/:id', getDetailsOrder)
 routerAPI.delete('/cancel-order/:id', cancelOrderDetails)
+routerAPI.delete('/confirm-order/:id', confirmOrderDetails)
 routerAPI.get('/get-all-order', getAllOrder)
 
 

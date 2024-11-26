@@ -8,6 +8,7 @@ const orderSchema = new mongoose.Schema({
             image: String,
             price: Number,
             discount: Number,
+            sizeSelected: String,
             product: {
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Product',
@@ -32,6 +33,10 @@ const orderSchema = new mongoose.Schema({
     paidAt: Date,
     isDelivered: Boolean,
     deliveredAt: Date,
+    status: {
+        type: Number,
+        default: 1,
+    },
 },
     {
         timestamps: true,

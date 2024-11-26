@@ -15,8 +15,10 @@ import { convertPrice } from '../../utils';
 const ProductDetailsComponent = ({idProduct}) => {
     const {state} = useLocation()
     const [numProduct, setNumProduct] = useState(1)
+    const [sizeProduct, setSizeProduct] = useState(null)
     const navigate = useNavigate()
     const [errorLimitOrder,setErrorLimitOrder] = useState(false)
+    const [errorSizeOrder,setErrorSizeOrder] = useState(false)
     const user = useSelector((state) => state.user)
     const order = useSelector((state) => state.order)
     const location = useLocation()
@@ -36,12 +38,14 @@ const ProductDetailsComponent = ({idProduct}) => {
       });
         
       const handleChange = (value) => {
-        console.log(`selected ${value}`);
+        setSizeProduct(value)
       };
 
-      const onChange = () => {
-
-      }
+      const onChange = (value) => {
+        console.log('Giá trị số lượng:', value);
+        setNumProduct(value); // Cập nhật state hoặc thực hiện hành động khác
+      };
+    
 
       useEffect(() => {
         const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id) 
@@ -51,6 +55,8 @@ const ProductDetailsComponent = ({idProduct}) => {
             setErrorLimitOrder(true)
         }
       },[numProduct])
+
+      
 
       // useEffect(() => {
       //   if(order.isSucessOrder) {
@@ -65,24 +71,31 @@ const ProductDetailsComponent = ({idProduct}) => {
       const handleAddOrderProduct = () => {
         if(!user?.id) {
             navigate('/sign-in', {state: location?.pathname})
-        }else {
-            const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
-            if((orderRedux?.amount + numProduct) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
-                dispatch(addOrderProduct({
-                    orderItem: {
-                        name: productDetails?.name,
-                        amount: numProduct,
-                        image: productDetails?.image,
-                        price: productDetails?.price,
-                        product: productDetails?._id,
-                        discount: productDetails?.discount,
-                        countInStock: productDetails?.countInStock
-                    }
-                }))
-            } else {
-                setErrorLimitOrder(true)
-            }
+            return;
         }
+        if (!sizeProduct) {
+          setErrorSizeOrder(true); // Hiển thị thông báo lỗi nếu chưa chọn kích thước
+          return;
+        }
+        const orderRedux = order?.orderItems?.find((item) => item.product === productDetails?._id)
+        if((orderRedux?.amount + numProduct) <= orderRedux?.countInstock || (!orderRedux && productDetails?.countInStock > 0)) {
+            dispatch(addOrderProduct({
+                orderItem: {
+                    name: productDetails?.name,
+                    amount: numProduct,
+                    image: productDetails?.image[0],
+                    size: productDetails?.size,
+                    sizeSelected: sizeProduct,
+                    price: productDetails?.price,
+                    product: productDetails?._id,
+                    discount: productDetails?.discount,
+                    countInStock: productDetails?.countInStock
+                }
+            }))
+        } else {
+            setErrorLimitOrder(true)
+        }
+        
     }
 
   const [isOpenDisc, setIsOpenDisc] = useState(false);
@@ -94,6 +107,14 @@ const ProductDetailsComponent = ({idProduct}) => {
   //     setIsOpen(prevState => !prevState);
   //   }
   // };
+
+      console.log('productdetail', productDetails)
+
+      // Chuyển đổi mảng size thành options
+      const sizeOptions = productDetails?.size.map((item) => ({
+        value: item,
+        label: item,
+      }));
 
       return (
         <LoadingComponent isLoading={isLoading}>
@@ -114,7 +135,7 @@ const ProductDetailsComponent = ({idProduct}) => {
                   </WrapperBreadcrumbStyle>
 
                   <ImgProductDiv>
-                      <ImgProduct src={productDetails?.image}/>
+                      <ImgProduct src={productDetails?.image[0]}/>
                   </ImgProductDiv>
     
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '10px'}}>
@@ -140,38 +161,42 @@ const ProductDetailsComponent = ({idProduct}) => {
                     </DivPrice>
                   </div>
     
-                  <SelectProduct>
+                  <SelectProduct style={{ gap: '150px'}}>
                     <OptionSelect>
                       <span> Kích thước </span>
                       <Select
                         defaultValue=""
                         style={{ width: 120 }}
                         onChange={handleChange}
-                        options={[
-                          { value: 'jack', label: 'Jack' },
-                          { value: 'lucy', label: 'Lucy' },
-                          { value: 'Yiminghe', label: 'yiminghe' },
-                        ]}
+                        // options={[
+                        //   { value: 'jack', label: 'Jack' },
+                        //   { value: 'lucy', label: 'Lucy' },
+                        //   { value: 'Yiminghe', label: 'yiminghe' },
+                        // ]}
+                        options={sizeOptions} // Gắn danh sách options từ size
                       />
+                      {errorSizeOrder && <div style={{color: '#f15e2c'}}>Vui lòng chọn size.</div>}
                     </OptionSelect>
+                    
     
                     <OptionSelect>
                     <span> Số lượng </span>
                       <InputNumber min={1} max={productDetails?.countInStock} defaultValue={productDetails?.countInStock === 0 ? 0 : 1} onChange={onChange} />
+                      {errorLimitOrder && <div style={{color: '#f15e2c'}}>Sản phẩm hết hàng.</div>}
                     </OptionSelect>
 
-                    {errorLimitOrder && <div style={{color: 'red'}}>San pham het hang</div>}
+                    
                   </SelectProduct>
     
                   <div style={{ display: 'flex', justifyContent: 'center', gap: '3%'}}>
-                    <ButtonSale 
+                    {/* <ButtonSale 
                       style={{ width: '100%', height: '70px', backgroundColor: '#f15e2c'}}
                       
                     > 
                       Mua ngay 
-                    </ButtonSale>
+                    </ButtonSale> */}
                     <ButtonSale 
-                      style={{ width: '40%', height: '70px', backgroundColor: '#000'}}
+                      style={{ width: '100%', height: '70px', backgroundColor: '#f15e2c'}}
                       onClick={handleAddOrderProduct}
                     >
                       <ShoppingCartOutlined />

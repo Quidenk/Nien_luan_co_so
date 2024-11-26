@@ -7,7 +7,7 @@ import Img2 from '../../assets/images/hpage5.jpg'
 import Img3 from '../../assets/images/hpage6.jpg'
 import Img4 from '../../assets/images/hpage8.jpg'
 import ImgDiscover from '../../assets/images/discover3.jpg'
-import Banner from '../../assets/images/banner.png'
+import Banner from '../../assets/images/banner_sale_off.jpg'
 import { useNavigate } from 'react-router';
 
 

@@ -86,7 +86,7 @@ const AdminProduct = () => {
         }
     }, [rowSelected, isOpenDrawer])
 
-    const {isloading : isLoadingUser, data : users} = queryUser
+    const { isPending : isLoadingUser, data : users} = queryUser
     const { data: dataDeleted, isPending: isLoadingDeleted, isSuccess: isSuccessDelected, isError: isErrorDeleted } = mutationDeleted
     const { data: dataUpdated, isPending: isLoadingUpdated, isSuccess: isSuccessUpdated, isError: isErrorUpdated } = mutationUpdate
 

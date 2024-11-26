@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { FormStyle, WrapperLogIn } from './style';
+import { ButtonAntD, FormStyle, InputStyle, LinkStyle, LoginStyle, WrapperLogIn } from './style';
 import { Button, Form, Input, notification } from 'antd';
 import { GetProfileUserApi, LogInUserApi } from '../../util/api';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -110,12 +110,11 @@ const SignInPage = () => {
     const { email, password } = values;
     console.log('values: ', values)
     mutation.mutate({ email, password })
-    
   }
 
   return (
     <div>
-        <div style={{ height: '100vh'}}>
+        {/* <LoginStyle style={{ height: '100vh'}}>
         <WrapperLogIn>
           <FormStyle
             name="basic"
@@ -168,7 +167,53 @@ const SignInPage = () => {
             </Form.Item>
           </FormStyle>
         </WrapperLogIn>
-      </div>
+      </LoginStyle> */}
+
+<LoginStyle style={{ height: '100vh' }}>
+<WrapperLogIn style={{backdropFilter: 'blur(17px)', backgroundColor: 'rgba(0, 0, 0, 0.3)', color: '#fff'}}>
+    <FormStyle
+          name="basic"
+          labelCol={{ span: 5 }}
+          wrapperCol={{ span: 20 }}
+          onFinish={onFinish}
+          autoComplete="on"
+          // form={form}
+    >
+          <div style={{ fontSize: '30px', fontWeight: '600', color: '#fff', display: 'flex', justifyContent: 'center', marginBottom: '20px'}}>ĐĂNG NHẬP</div>
+          
+          <Form.Item
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: 'Please input your email!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="email" />
+          </Form.Item>
+
+          <Form.Item
+              label="Password"
+              name="password"
+              rules={[{ required: true, message: 'Please input your password!' }]}
+          >
+          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
+          </Form.Item>
+
+          <Form.Item wrapperCol={{ offset: 5, span: 20 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              <div>
+                <LinkStyle  onClick={() => {navigate('/sign-up')}}>Bạn chưa có tài khoản???</LinkStyle>
+              </div>
+              
+              <div>
+                <ButtonAntD type="default" htmlType="submit">
+                    Signin
+                </ButtonAntD>
+              </div>
+              </div>
+          </Form.Item>
+      </FormStyle>
+  </WrapperLogIn>
+</LoginStyle>
+
     </div>
   )
 }

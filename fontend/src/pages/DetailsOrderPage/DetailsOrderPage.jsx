@@ -100,6 +100,7 @@ const DetailsOrderPage = () => {
         <div style={{flex:1,display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: '#fff'}}>
             <div style={{width: '670px'}}>Sản phẩm</div>
             <WrapperItemLabel>Giá</WrapperItemLabel>
+            <WrapperItemLabel>Kích thước</WrapperItemLabel>
             <WrapperItemLabel>Số lượng</WrapperItemLabel>
             <WrapperItemLabel>Giảm giá</WrapperItemLabel>
         </div>
@@ -126,6 +127,7 @@ const DetailsOrderPage = () => {
                 }}>{order?.name}</div>
                 </WrapperNameProduct>
                 <WrapperItem>{convertPrice(order?.price)}</WrapperItem>
+                <WrapperItem>{order?.sizeSelected}</WrapperItem>
                 <WrapperItem>{order?.amount}</WrapperItem>
                 <WrapperItem>{ order?.discount ? `${order?.discount}%` : '0%'}</WrapperItem>
                 

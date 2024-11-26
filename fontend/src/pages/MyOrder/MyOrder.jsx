@@ -128,31 +128,42 @@ const MyOrderPage = () => {
                       >{convertPrice(order?.totalPrice)}</span>
                     </div>
                     <div style={{display: 'flex', gap: '10px'}}>
-                    <ButtonComponent
-                        onClick={() => handleCanceOrder(order)}
-                        size={40}
-                        styleButton={{
-                            height: '36px',
-                            border: '1px solid #f15e2c',
-                            borderRadius: '4px',
-                            background: '#f15e2c',
-                        }}
-                        textbutton={'Hủy đơn hàng'}
-                        styleTextButton={{ color: '#fff', fontSize: '14px' }}
-                      >
-                      </ButtonComponent>
-                      <ButtonComponent
-                        onClick={() => handleDetailsOrder(order?._id)}
-                        size={40}
-                        styleButton={{
-                            height: '36px',
-                            border: '1px solid #f15e2c',
-                            borderRadius: '4px'
-                        }}
-                        textbutton={'Xem chi tiết'}
-                        styleTextButton={{ color: '#f15e2c', fontSize: '14px' }}
-                      >
-                      </ButtonComponent>
+                      {order?.status == 1 ? (
+                            <>
+                                      <ButtonComponent
+                              onClick={() => handleCanceOrder(order)}
+                              size={40}
+                              styleButton={{
+                                  height: '36px',
+                                  border: '1px solid #f15e2c',
+                                  borderRadius: '4px',
+                                  background: '#f15e2c',
+                              }}
+                              textbutton={'Hủy đơn hàng'}
+                              styleTextButton={{ color: '#fff', fontSize: '14px' }}
+                            >
+                            </ButtonComponent>
+                            </>
+                        ) : (
+                            <>
+                                <button style={{ border: 'none', borderRadius: '4px', padding: '10px', backgroundColor: 'rgb(255, 255, 255, 0.2)', color: 'rgb(0, 0, 0, 0.3)'}} type="primary" htmlType="submit">
+                                    Đơn hàng đã được xác nhận
+                                </button>
+                            </>
+                        )}
+
+                        <ButtonComponent
+                              onClick={() => handleDetailsOrder(order?._id)}
+                              size={40}
+                              styleButton={{
+                                  height: '36px',
+                                  border: '1px solid #f15e2c',
+                                  borderRadius: '4px'
+                              }}
+                              textbutton={'Xem chi tiết'}
+                              styleTextButton={{ color: '#f15e2c', fontSize: '14px' }}
+                            >
+                          </ButtonComponent>
                     </div>
                   </WrapperFooterItem>
                 </WrapperItemOrder>
