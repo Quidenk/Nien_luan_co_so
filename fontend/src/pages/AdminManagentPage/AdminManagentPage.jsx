@@ -8,6 +8,7 @@ import AdminUser from '../../components/AdminUser/AdminUser';
 import AdminProduct from '../../components/AdminProduct/AdminProduct';
 import { MenuStyle } from './style';
 import AdminOrder from '../../components/AdminOrder/AdminOrder';
+import AdminChart from '../../components/AdminChart/AdminChart';
 
 
 const AdminManagentPage = () => {
@@ -37,7 +38,7 @@ const AdminManagentPage = () => {
         )
       case 'statistical':
         return (
-          <AdminOrder/>
+          <AdminChart/>
         )
       default: 
         return <></>

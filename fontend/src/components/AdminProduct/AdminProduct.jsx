@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ButtonAdd, ButtonAntD, ButtonUpload, FormStyle, WrapperHeader } from './style';
 import TableComponent from '../TableComponent/TableComponent';
-import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, FileExcelOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Select, Space, Tag, Upload } from 'antd'; // Thêm Upload
 import { getBase64, renderOptions } from '../../utils';
 import { useMutationHooks } from '../../hooks/useMutationHook';
@@ -11,6 +11,7 @@ import DrawerComponent from '../DrawerComponent/DrawerComponent';
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import ModelComponent from '../ModalComponent/ModelComponent';
 import { GetTypeProduct } from '../../util/api';
+import * as XLSX from 'xlsx'; // Import the xlsx library
 
 const AdminProduct = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -596,6 +597,13 @@ const AdminProduct = () => {
     
     console.log('stateProduct', stateProductDetail)
 
+    const handleExport = () => {
+        const ws = XLSX.utils.json_to_sheet(products?.result || []); // Convert the data to a worksheet
+        const wb = XLSX.utils.book_new(); // Create a new workbook
+        XLSX.utils.book_append_sheet(wb, ws, 'Sản phẩm'); // Append the worksheet to the workbook
+        XLSX.writeFile(wb, 'Sản phẩm.xlsx'); // Write the workbook to an Excel file
+    };
+
     return (
         <div>
             <WrapperHeader>
@@ -607,6 +615,16 @@ const AdminProduct = () => {
                         <PlusOutlined />
                     </ButtonAdd>
                 </div>
+
+                <Button 
+                    type="primary" 
+                    onClick={handleExport} 
+                    style={{ marginTop: '20px', marginBottom: '20px', background: 'rgb(241, 94, 44)', fontWeight: '600', padding: '20px' }}
+                >
+                    <FileExcelOutlined style={{ fontSize: '20px', fontWeight: '600'}} />
+                    Export to Excel
+                </Button>
+
                 <div style={{ marginTop: '20px' }}>
                     <TableComponent columns={columns} isloading={isLoadingProducts} data={dataTable} onRow={(record, rowIndex) =>{
                         return {
@@ -678,6 +696,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Size"
                                 name="size"
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your size!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Size must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Space direction="vertical" style={{ width: '100%' }}>
                                     <Input
@@ -708,7 +736,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Price"
                                 name="price"
-                                rules={[{ required: true, message: 'Please input your price!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your price!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Price must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProduct.price} onChange={handleOnChange} name='price' />
                             </Form.Item>
@@ -716,7 +753,24 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Discount"
                                 name="discount"
-                                rules={[{ required: true, message: 'Please input your discount!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your discount!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Discount must be a number!'
+                                    },
+                                    {
+                                      validator: (_, value) => {
+                                        if (value < 0 || value > 100) {
+                                          return Promise.reject('Discount must be between 0 and 100!');
+                                        }
+                                        return Promise.resolve();
+                                      }
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProduct.discount} onChange={handleOnChange} name='discount' />
                             </Form.Item>
@@ -724,7 +778,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Count In Stock"
                                 name="countInStock"
-                                rules={[{ required: true, message: 'Please input your count in stock!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your count in stock!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Count In Stock must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProduct.countInStock} onChange={handleOnChange} name='countInStock' />
                             </Form.Item>
@@ -870,6 +933,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Size"
                                 name="size"
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your size!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Size must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Space direction="vertical" style={{ width: '100%' }}>
                                     <Input
@@ -899,7 +972,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Price"
                                 name="price"
-                                rules={[{ required: true, message: 'Please input your price!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your price!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Price must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProductDetail.price} onChange={handleOnChangeDetail} name='price' />
                             </Form.Item>
@@ -907,7 +989,24 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Discount"
                                 name="discount"
-                                rules={[{ required: true, message: 'Please input your discount!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your discount!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Discount must be a number!'
+                                    },
+                                    {
+                                      validator: (_, value) => {
+                                        if (value < 0 || value > 100) {
+                                          return Promise.reject('Discount must be between 0 and 100!');
+                                        }
+                                        return Promise.resolve();
+                                      }
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProductDetail.discount} onChange={handleOnChangeDetail} name='discount' />
                             </Form.Item>
@@ -915,7 +1014,16 @@ const AdminProduct = () => {
                             <Form.Item
                                 label="Count In Stock"
                                 name="countInStock"
-                                rules={[{ required: true, message: 'Please input your count in stock!' }]}
+                                rules={[
+                                    { 
+                                      required: true, 
+                                      message: 'Please input your count in stock!' 
+                                    },
+                                    {
+                                      pattern: /^[0-9]*$/, // Chỉ cho phép nhập số
+                                      message: 'Count In Stock must be a number!'
+                                    }
+                                  ]}
                             >
                                 <Input value={stateProductDetail.countInStock} onChange={handleOnChangeDetail} name='countInStock' />
                             </Form.Item>

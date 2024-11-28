@@ -117,7 +117,7 @@ const OrderPage = () => {
 
   const priceMemo = useMemo(() => {
     const result = order?.orderItemsSlected?.reduce((total, cur) => {
-      return total + ((cur.price * cur.amount))
+      return Number(total) + Number((cur.price * cur.amount))
     },0)
     return result
   },[order])
@@ -126,7 +126,7 @@ const OrderPage = () => {
     const result = order?.orderItemsSlected?.reduce((total, cur) => {
       const totalDiscount = cur.discount ? cur.discount : 0
       // return total + (priceMemo * (totalDiscount  * cur.amount) / 100)
-      return total + (cur.price * cur.amount * (totalDiscount/ 100))
+      return Number(total) + Number(cur.price * cur.amount * (totalDiscount/ 100))
       // return total + (priceMemo * (100-totalDiscount)/100 *cur.amount)
     },0)
     if(Number(result)){
@@ -137,16 +137,17 @@ const OrderPage = () => {
 
   const diliveryPriceMemo = useMemo(() => {
     if(priceMemo >= 200000 && priceMemo < 500000){
-      return convertPrice(10000)
+      return Number(10000)
     }else if(priceMemo >= 500000 || order?.orderItemsSlected?.length === 0) {
       return 0
     } else {
-      return convertPrice(20000)
+      return Number(20000)
     }
   },[priceMemo])
 
   const totalPriceMemo = useMemo(() => {
     console.log(`${Number(priceMemo)} - ${Number(priceDiscountMemo)} + ${Number(diliveryPriceMemo)}`)
+    // console.log(`${Number(priceMemo)} - ${Number(priceDiscountMemo)} + ${Number(diliveryPriceMemo)}`)
     return Number(priceMemo) - Number(priceDiscountMemo) + Number(diliveryPriceMemo)
   },[priceMemo,priceDiscountMemo, diliveryPriceMemo])
 

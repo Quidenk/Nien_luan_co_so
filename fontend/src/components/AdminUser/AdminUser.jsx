@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { ButtonAdd, ButtonAntD, ButtonUpload, WrapperHeader, WrapperUploadFile } from './style';
 import TableComponent from '../TableComponent/TableComponent';
-import { DeleteOutlined, EditOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, FileExcelOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
 import { Button, Form, Input, message, Modal, Radio, Space, Upload } from 'antd'; // Thêm Upload
 import { getBase64 } from '../../utils';
 import { useMutationHooks } from '../../hooks/useMutationHook';
@@ -12,6 +12,7 @@ import DrawerComponent from '../DrawerComponent/DrawerComponent';
 import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import ModelComponent from '../ModalComponent/ModelComponent';
 import { FormStyle } from '../AdminProduct/style';
+import * as XLSX from 'xlsx';
 
 
 const AdminProduct = () => {
@@ -310,12 +311,46 @@ const AdminProduct = () => {
 
     console.log('stateUserDetails', stateUserDetails)
 
+    // Function to export users to Excel
+    const handleExportToExcel = () => {
+        // Prepare the data
+        const dataToExport = users?.UserList?.map(user => ({
+            ID: user._id,
+            Name: user.name,
+            Email: user.email,
+            Address: user.address,
+            Phone: user.phone,
+            Admin: user.isAdmin ? 'True' : 'False',
+        }));
+
+        // Create a worksheet from the data
+        const ws = XLSX.utils.json_to_sheet(dataToExport);
+
+        // Create a workbook with the worksheet
+        const wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Users');
+
+        // Export the workbook to an Excel file
+        XLSX.writeFile(wb, 'users.xlsx');
+    };
+
     return (
         <div>
             <WrapperHeader>
                 <h2 style={{ display: 'flex', justifyContent: 'center', color: 'white', fontWeight: 'bold', textAlign: 'center', fontSize: '30px' }}>
                     QUẢN LÝ NGƯỜI DÙNG
                 </h2>
+
+                {/* Add Export Button */}
+                <Button 
+                    type="primary" 
+                    onClick={handleExportToExcel} 
+                    style={{ marginBottom: '20px', background: 'rgb(241, 94, 44)', fontWeight: '600', padding: '20px' }}
+                >
+                    <FileExcelOutlined style={{ fontSize: '20px', fontWeight: '600'}} />
+                    Export to Excel
+                </Button>
+
                 <div style={{ marginTop: '20px' }}>
                     <TableComponent columns={columns} isloading={isLoadingUser} data={dataTable} onRow={(record, rowIndex) =>{
                         return {

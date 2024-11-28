@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useMutationHooks } from '../../hooks/useMutationHook';
 import { jwtDecode } from 'jwt-decode';
 import { updateUser } from '../../redux/slides/userSlide';
+import { InputPasswordStyle } from '../SignUpPage/style';
 
 
 const SignInPage = () => {
@@ -194,7 +195,7 @@ const SignInPage = () => {
               name="password"
               rules={[{ required: true, message: 'Please input your password!' }]}
           >
-          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
+          <InputPasswordStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
           </Form.Item>
 
           <Form.Item wrapperCol={{ offset: 5, span: 20 }}>

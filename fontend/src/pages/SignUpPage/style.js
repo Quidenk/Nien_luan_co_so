@@ -35,6 +35,16 @@ export const InputStyle = styled(Input)`
         border-color: rgb(241, 94, 44) !important ;
     }
 `
+
+export const InputPasswordStyle = styled(Input.Password )`
+    background-color: rgba(0, 0, 0, 0.04) !important;
+    color: #fff !important;
+
+    &:hover{
+        border-color: rgb(241, 94, 44) !important ;
+    }
+`
+
 export const LinkStyle = styled.span`
     color: #fff;
     border-bottom: 1px solid #fff;

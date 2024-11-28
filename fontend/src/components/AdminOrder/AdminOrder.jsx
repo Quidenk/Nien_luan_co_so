@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { ButtonAntD, WrapperAllPrice, WrapperHeader, WrapperItem, WrapperItemLabel, WrapperNameProduct, WrapperProduct, WrapperStyleContent } from './style'
 import TableComponent from '../TableComponent/TableComponent'
 import { Button, Form, Input, message, Radio, Space } from 'antd';
-import { SearchOutlined, SnippetsOutlined } from '@ant-design/icons';
+import { FileExcelOutlined, SearchOutlined, SnippetsOutlined } from '@ant-design/icons';
 import { CancelOrderApi, ConfirmOrderApi, GetAllOrderApi, GetDetailOrderApi, GetOrderApi } from '../../util/orderService';
 import { useQuery } from '@tanstack/react-query';
 import DrawerComponent from '../DrawerComponent/DrawerComponent';
@@ -10,6 +10,10 @@ import LoadingComponent from '../LoadingComponent/LoadingComponent';
 import { FormStyle } from '../AdminUser/style';
 import { convertPrice } from '../../utils';
 import { useMutationHooks } from '../../hooks/useMutationHook';
+import RevenueChart from '../RevenueChart/RevenueChart';
+import * as XLSX from 'xlsx'; // Import the xlsx library
+
+
 
 const AdminOrder = () => {
     const [rowSelected, setRowSelected] = useState('')
@@ -296,12 +300,12 @@ const AdminOrder = () => {
         }
       }, [isErrorConfirm, isSuccessConfirm])
 
-
     return (
         <WrapperHeader>
             <h2 style={{ display: 'flex', justifyContent: 'center', color: 'white', fontWeight: 'bold', textAlign: 'center', fontSize: '30px' }} >
                 QUẢN LÝ ĐƠN HÀNG
             </h2>
+
             <div style={{ marginTop: '20px' }}>
                 <TableComponent columns={columns} isloading={isLoadingOrder} data={dataTable} onRow={(record, rowIndex) =>{
                     return {

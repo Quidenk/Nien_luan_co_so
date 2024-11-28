@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ButtonAntD, FormStyle, InputStyle, LinkStyle, LoginStyle, WrapperRegister } from './style'
+import { ButtonAntD, FormStyle, InputPasswordStyle, InputStyle, LinkStyle, LoginStyle, WrapperRegister } from './style'
 import { Button, Form, Input, message, notification } from 'antd'
 import { createUserApi } from '../../util/api';
 import { useNavigate } from 'react-router';
@@ -32,6 +32,25 @@ const SignUpPage = () => {
   const onFinish = async (values) => {
     const {name, email, password, confirmPassword} = values;
     // console.log('values: ', values)
+
+     // Manually validate the email and password
+     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+     if (!emailPattern.test(email)) {
+       notification.error({
+         message: 'Invalid Email',
+         description: 'Please input a valid email address.',
+       });
+       return;
+     }
+
+     if (password.length < 6) {
+      notification.error({
+        message: 'Password Too Short',
+        description: 'Password must be at least 6 characters long.',
+      });
+      return;
+    }
+
     if (password === confirmPassword){
       // console.log('password == confirmPassword', password, confirmPassword)
       mutation.mutate({name, email, password})
@@ -67,8 +86,8 @@ const SignUpPage = () => {
           
           <FormStyle
           name="basic"
-          labelCol={{ span: 5 }}
-          wrapperCol={{ span: 20 }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 15 }}
           onFinish={onFinish}
           autoComplete="on"
           // form={form}
@@ -98,7 +117,7 @@ const SignUpPage = () => {
               name="password"
               rules={[{ required: true, message: 'Please input your password!' }]}
           >
-          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
+          <InputPasswordStyle style={{ color: '#fff', fontWeight: '600'}} name="password" />
           </Form.Item>
 
           <Form.Item
@@ -106,10 +125,10 @@ const SignUpPage = () => {
               name="confirmPassword"
               rules={[{ required: true, message: 'Please input your confirm password!' }]}
           >
-          <InputStyle style={{ color: '#fff', fontWeight: '600'}} name="confirmPassword" />
+          <InputPasswordStyle  style={{ color: '#fff', fontWeight: '600'}} name="confirmPassword" />
           </Form.Item>
 
-          <Form.Item wrapperCol={{ offset: 5, span: 20 }}>
+          <Form.Item wrapperCol={{ offset: 6, span: 15 }}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
               <div>
                 <LinkStyle  onClick={() => {navigate('/sign-in')}}>Tôi đã có tài khoản.</LinkStyle>
